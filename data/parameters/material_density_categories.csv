@@ -1,0 +1,4 @@
+category,example_material,density_g_cm3,lethality_multiplier,notes,source
+low,plastics/composites,1.4,0.50,low-density fragments carry less KE per size,ORDEM material categories (via paper)
+medium,aluminium,2.8,1.00,baseline reference (most spacecraft structure),ORDEM material categories (via paper)
+high,steel/dense alloys,8.0,2.86,high-density fragments most lethal per size; multiplier = density/2.8,ORDEM material categories (via paper)

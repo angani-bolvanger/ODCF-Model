@@ -1,0 +1,71 @@
+{
+  "_meta": {
+    "title": "ODCF / Orbital Risk Score — core parameter library",
+    "status": "Stage 1. Confidently-sourced constants filled; empirical layers (spatial density) rebuild from the catalogue via build_parameters.py.",
+    "model_type": "transparent parametric",
+    "last_updated": "2026-07-02",
+    "source_key": {
+      "PAPER": "Orbital Stewardship - Final Draft.docx",
+      "NASA_SBM": "NASA Standard Breakup Model, Johnson et al. 2001 (EVOLVE 4.0)",
+      "ORDEM": "NASA Orbital Debris Engineering Model (material/density categories)",
+      "MASTER": "ESA MASTER reference (spatial density)",
+      "KINGHELE": "King-Hele atmospheric decay theory",
+      "VALLADO": "Vallado, Fundamentals of Astrodynamics (exponential atmosphere)",
+      "EMPIRICAL": "Computed from the merged DISCOS + Space-Track catalogue"
+    }
+  },
+
+  "ors_formula": {
+    "expression": "ORS = w_DGP*DGP + w_OPI*OPI + w_CPF*CPF",
+    "constraint": "w_DGP + w_OPI + w_CPF = 1; DGP, OPI, CPF each normalized to [0,1]",
+    "default_weights": {"w_DGP": 0.30, "w_OPI": 0.50, "w_CPF": 0.20,
+      "note": "Early-phase default. PAPER proposes high OPI weight (~0.5) to enforce the 25-year disposal guideline. Weights are policy levers."}
+  },
+
+  "debris_generation_potential": {
+    "catastrophic_collision_threshold": {"value": 40, "units": "J/g",
+      "definition": "impact energy-to-mass ratio >= 40 J/g => catastrophic full fragmentation",
+      "source": "PAPER; NASA_SBM"},
+    "nasa_standard_breakup_model": {
+      "fragment_count_collision": {"expression": "N(>Lc) = 0.1 * (Mtot)^0.75 * Lc^(-1.71)",
+        "variables": {"Lc": "characteristic length (m)",
+          "Mtot": "catastrophic: combined mass (kg); non-catastrophic: m_proj*v_impact^2 kg-equiv"},
+        "source": "NASA_SBM (Johnson et al. 2001)", "verified": "confirmed verbatim in 'A parametric simulation of a spacecraft fragmentation' (Nf = 0.1 Me^0.75 Lc^-1.71, Me in kg, Lc in m)"}},
+    "material_density_categories": {"file": "material_density_categories.csv",
+      "units": "g/cm^3", "source": "PAPER + ORDEM"},
+    "fragmentation_potential_by_objectClass": {"file": "object_class_fragmentation.csv",
+      "source_field": "DISCOS objectClass", "source": "EMPIRICAL enumeration + PAPER logic"},
+    "cross_section": {"source_field": "DISCOS xSectAvg (m^2)",
+      "role": "linear multiplier on strike probability"}
+  },
+
+  "orbital_persistence_index": {
+    "basis": "orbital lifetime from King-Hele atmospheric decay; longer lifetime => higher OPI",
+    "drivers": {"altitude_h": "Space-Track apogee/perigee (km)",
+      "area_to_mass_ratio": "DISCOS xSectAvg / mass (m^2/kg)",
+      "ballistic_coefficient": "B = m/(Cd*A); OPI increasing in B",
+      "drag_coefficient_Cd": {"value": 2.2, "source": "KINGHELE convention", "verify": true}},
+    "atmospheric_density_model": {"file": "atmospheric_density_reference.csv",
+      "model": "piecewise-exponential (Vallado); Jacchia optional for high-fidelity pass",
+      "solar_index": "F10.7 (NOAA SWPC)", "source": "VALLADO; KINGHELE"},
+    "shortcut": "DISCOS predDecayDate gives a direct predicted-lifetime signal for many objects",
+    "normalization": "lifetime -> [0,1], log-scaled (lifetimes span years to millennia)"
+  },
+
+  "collision_probability_factor": {
+    "basis": "spatial density / flux of the object's orbital shell",
+    "spatial_density_table": {"file": "spatial_density_by_altitude.csv",
+      "source": "EMPIRICAL (measured from catalogue, 25 km shells)",
+      "validation": "reproduces literature ~800 km debris peak AND reveals modern ~475-550 km payload peak",
+      "augmentation": "can be scaled by ORDEM/MASTER small-debris flux later"},
+    "normalization": "cpf_normalized column already in [0,1]"
+  },
+
+  "contribution_formula": {
+    "expression": "C_i = ( sum_j ORS_ij / sum_over_all_objects ORS ) * TotalAnnualFundTarget",
+    "variables": {"C_i": "annual contribution of operator i",
+      "ORS_ij": "ORS of object j owned by operator i",
+      "TotalAnnualFundTarget": "set annually (admin + claims reserve + ADR budget)"},
+    "source": "PAPER"
+  }
+}

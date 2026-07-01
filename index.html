@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Orbital Stewardship</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="site"><div class="wrap">
+  <div class="brand"><span class="t">Orbital Stewardship</span><span class="v">ORS v1</span></div>
+  <nav class="main">
+    <a href="index.html" class="active">Overview</a>
+    <a href="model.html">Model</a>
+    <a href="methodology.html">Methodology</a>
+    <a href="data.html">Data</a>
+    <a href="debris.html">Space Debris</a>
+  </nav>
+</div></header>
+
+<main><div class="wrap">
+  <div class="page-head">
+    <div class="label">Orbital-debris risk model &amp; compensation framework</div>
+    <h1>A risk score for objects in Earth orbit, and a fund priced by it.</h1>
+    <p class="lead">This model assigns each object in orbit an Orbital Risk Score (ORS) computed from public catalogue data, and defines a contribution to a proposed Orbital Debris Compensation Fund (ODCF) proportional to that score. The score and the contribution are recomputed live in the browser from documented parameters.</p>
+  </div>
+
+  <section class="block">
+    <div class="cols">
+      <div>
+        <h2>What this is</h2>
+        <p>The ORS combines three factors into a single normalised value between 0 and 1: an object's potential to generate debris, its orbital persistence, and the collision density of its orbital region. Contributions to the fund are levied on new launches in proportion to the risk each adds.</p>
+        <p>The model is transparent and parametric: every constant is published on the <a href="methodology.html">Methodology</a> page and every dataset is available on the <a href="data.html">Data</a> page. It is calibrated on real catalogue data but is not a conjunction-assessment system; figures are indicative.</p>
+      </div>
+      <div class="panel">
+        <div class="kv"><span class="k">Model type</span><span class="v">transparent parametric</span></div>
+        <div class="kv"><span class="k">Objects scored</span><span class="v">53,879</span></div>
+        <div class="kv"><span class="k">Catalogue sources</span><span class="v">DISCOS · Space-Track</span></div>
+        <div class="kv"><span class="k">Risk factors</span><span class="v">DGP · OPI · CPF</span></div>
+        <div class="kv"><span class="k">Fund target (hypothetical)</span><span class="v">$1.0B / yr</span></div>
+        <div class="kv"><span class="k">Price of risk</span><span class="v">~$1.06M / ORS point</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Origin</h2>
+    <p class="lead">This model and website operationalise <a href="debris.html">Orbital Stewardship: A Framework for a Collective Liability Fund to Combat Space Debris</a>, a paper by Janav Arun. Janav is a fifth-year law student at the National Law School of India University. His interest in space law developed through his participation in the 2024 Manfred Lachs Space Law Moot Court Competition, where he became aware of the scale of the orbital debris problem. The full paper is available on the <a href="debris.html">Space Debris</a> page.</p>
+  </section>
+
+  <section class="block">
+    <h2>Sections</h2>
+    <div class="cols3">
+      <div class="panel"><h3><a href="model.html">Model</a></h3><p class="muted small">Interactive calculator. Enter an object or constellation; obtain its ORS, factor breakdown, and annual contribution.</p></div>
+      <div class="panel"><h3><a href="methodology.html">Methodology</a></h3><p class="muted small">The ORS equation and every variable, the normalisation and gating, and the fund's contribution mechanism.</p></div>
+      <div class="panel"><h3><a href="data.html">Data</a></h3><p class="muted small">The compiled datasets and parameters, in machine-readable form, with source attribution.</p></div>
+    </div>
+    <div class="cols3" style="margin-top:18px">
+      <div class="panel"><h3><a href="debris.html">Space Debris</a></h3><p class="muted small">The problem the model addresses, its relevance, and the paper this work operationalises.</p></div>
+    </div>
+  </section>
+</div></main>
+
+<footer class="site"><div class="wrap">
+  Orbital Stewardship — a risk model and compensation-fund framework for orbital debris.
+  Data: ESA DISCOS, US Space-Track, NASA Standard Breakup Model &amp; ORDEM, ESA MASTER. Figures are indicative.
+</div></footer>
+<script src="assets/data.js"></script>
+</body></html>

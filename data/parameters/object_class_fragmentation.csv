@@ -1,0 +1,12 @@
+discos_object_class,catalogue_count,fragmentation_potential,fp_score,rationale
+Rocket Body,8647,high,1.00,residual propellant/pressurant frequently un-passivated -> highest spontaneous-breakup risk
+Payload,28900,variable,0.60,default medium; modern passivated payloads lower legacy un-passivated higher
+Unknown,13467,medium,0.50,unclassified -> neutral prior pending identification
+Payload Mission Related Object,4166,low-medium,0.35,adapters/covers; some stored energy possible
+Rocket Mission Related Object,4133,low-medium,0.40,stage-related hardware; modest residual-energy risk
+Payload Fragmentation Debris,17057,low,0.15,already a fragment; limited further catastrophic-breakup potential
+Rocket Fragmentation Debris,14423,low,0.15,already a fragment; limited further breakup potential
+Payload Debris,370,low,0.10,small detached debris
+Rocket Debris,266,low,0.10,small detached debris
+Other Debris,160,low,0.10,miscellaneous debris
+Other Mission Related Object,2,low-medium,0.35,rare category

@@ -1,0 +1,11 @@
+# never commit credentials
+ingest/secrets.ini
+
+# raw + per-object catalogues (Space-Track redistribution terms) — not needed for the site
+data/raw/
+data/processed/
+
+# python
+__pycache__/
+*.pyc
+.DS_Store

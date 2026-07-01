@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Methodology — Orbital Stewardship</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="site"><div class="wrap">
+  <div class="brand"><span class="t">Orbital Stewardship</span><span class="v">ORS v1</span></div>
+  <nav class="main">
+    <a href="index.html">Overview</a>
+    <a href="model.html">Model</a>
+    <a href="methodology.html" class="active">Methodology</a>
+    <a href="data.html">Data</a>
+    <a href="debris.html">Space Debris</a>
+  </nav>
+</div></header>
+
+<main><div class="wrap">
+  <div class="page-head">
+    <div class="label">Methodology</div>
+    <h1>How the Orbital Risk Score is computed</h1>
+    <p class="lead">The score is a weighted, normalised combination of three physical factors, gated by two policy adjustments. Each term is defined below. The constants are fixed values published here and in the <a href="data.html">parameter files</a>; the model is deterministic and runs identically in the browser and in the reference Python implementation.</p>
+  </div>
+
+  <section class="block">
+    <h2>The score</h2>
+    <div class="eq">ORS  =  R(h<sub>p</sub>) · A · ( w<sub>DGP</sub>·DGP  +  w<sub>OPI</sub>·OPI  +  w<sub>CPF</sub>·CPF )</div>
+    <p>Three factors are each normalised to the interval [0, 1] and combined with weights that sum to 1: debris generation (DGP), orbital persistence (OPI) and collision probability (CPF). The weighted sum is then scaled by two gating terms: a collision-relevance factor <code>R</code> based on perigee altitude, and an active-object factor <code>A</code>. The default weights are:</p>
+    <div class="eq">w<sub>DGP</sub> = 0.30      w<sub>OPI</sub> = 0.50      w<sub>CPF</sub> = 0.20</div>
+    <p>Persistence carries the largest weight by design: an object's total contribution to the debris environment is dominated by how long it stays there. The weights are policy instruments that a governing body could reweight to steer behaviour, though they are held fixed here.</p>
+  </section>
+
+  <section class="block">
+    <h2>The three factors</h2>
+
+    <div class="vardef">
+      <h4>Debris Generation Potential <span class="tag">DGP</span></h4>
+      <div class="eq">DGP<sub>raw</sub>  =  m<sup>0.75</sup> · ρ<sub>mat</sub> · ( 0.5 + 0.5·FP )</div>
+      <p>How much debris the object would produce in a break-up. Mass enters as <code>m^0.75</code>, the fragment-count scaling of the NASA Standard Breakup Model, under which doubling mass produces roughly 1.7× the fragments rather than 2×. <code>ρ<sub>mat</sub></code> is a material-density multiplier (denser fragments carry more energy and are more lethal; aluminium is the baseline). <code>FP</code> is a fragmentation-potential score from the object's class. Rocket bodies, which often retain un-passivated propellant, score highest, and inert fragments score lowest.</p>
+    </div>
+
+    <div class="vardef">
+      <h4>Orbital Persistence Index <span class="tag">OPI</span></h4>
+      <p>How long the object remains in orbit. Where the ESA catalogue provides a predicted decay date, it is used directly; otherwise orbital lifetime is estimated from atmospheric-drag decay (King-Hele), driven by perigee altitude and the object's ballistic coefficient <code>B = m / (C<sub>d</sub>·A)</code>. A compact, heavy object high in LEO can persist for centuries; a light object low down re-enters within years. Longer lifetime, higher OPI.</p>
+    </div>
+
+    <div class="vardef">
+      <h4>Collision Probability Factor <span class="tag">CPF</span></h4>
+      <div class="eq">CPF<sub>raw</sub>  =  δ(h)  ·  A<sub>cross</sub></div>
+      <p>How exposed the object is to collision. <code>δ(h)</code> is the spatial density of objects at the object's altitude, measured directly from the catalogue in 25 km shells; <code>A<sub>cross</sub></code> is the object's own cross-sectional area, since a larger target is proportionally more likely to be struck. This is where cross-section enters the model, since collision probability, not debris generation, is what a large frontal area physically drives.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Normalisation</h2>
+    <p>The three raw factors span many orders of magnitude, from masses in grams to tonnes and densities across a wide range. Each is mapped onto [0, 1] by a logarithmic min-max against the real population, clipped at the 1st and 99th percentiles so that a handful of extreme objects do not compress everything else:</p>
+    <div class="eq">F  =  clip(  ( log₁₀ x − log₁₀ x<sub>lo</sub> ) / ( log₁₀ x<sub>hi</sub> − log₁₀ x<sub>lo</sub> ),  0,  1 )</div>
+    <p>A normalised factor of 1 therefore means "at or above the 99th-percentile object in orbit for this property", and 0 means "at or below the 1st percentile".</p>
+  </section>
+
+  <section class="block">
+    <h2>Gating</h2>
+    <div class="vardef">
+      <h4>Collision-relevance <span class="tag">R(h<sub>p</sub>)</span></h4>
+      <p>Persistence and mass alone should not make an object high-risk if it sits far from any traffic. <code>R</code> equals 1 for objects whose perigee is within the populated LEO band (≤ 1600 km), tapers down between 1600 and 2000 km, and holds at 0.25 above it. This keeps the score focused on the collision-cascade regime without ignoring high, long-lived objects entirely. Perigee is used throughout so that eccentric orbits are assessed where they actually encounter atmosphere and traffic.</p>
+    </div>
+    <div class="vardef">
+      <h4>Active-object factor <span class="tag">A</span></h4>
+      <p>An active, controllable satellite can perform collision-avoidance manoeuvres and is expected to be disposed of responsibly. It is therefore scored at 0.40 of the equivalent defunct object. Loss of control removes this discount, which is the intended incentive.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>From score to contribution</h2>
+    <div class="eq">C  =  price · ORS · n        price  =  FundTarget / (annual new-launch ORS)</div>
+    <p>The fund raises its annual target from the flow of new launches, in proportion to the risk each adds. Dividing the target by the aggregate risk of a typical year's launches yields a price per unit of risk; a single object's contribution is that price times its ORS, times the number of objects <code>n</code>. At a hypothetical $1B annual target and recent launch rates, the price is approximately <strong>$1.06 million per ORS point</strong>.</p>
+    <div class="note">This is a levy on the flow of new activity, not a charge against the entire standing population. Charging the standing stock would divide the target across tens of thousands of objects, including orphan debris with no payer, and produce negligible per-object figures. Pricing the flow attaches the cost to the decision that creates the risk.</div>
+  </section>
+
+  <section class="block">
+    <h2>The compensation fund as a deterrent</h2>
+    <p>The Orbital Debris Compensation Fund is a mechanism for pricing risk before it is created, not for assigning blame after a collision. Its primary purpose is preventive: because the contribution is tied directly to the score, an operator lowers its bill by lowering its risk: deorbiting on schedule, passivating stored energy, retaining manoeuvrability, or selecting a lower, self-cleaning orbit. The fund is intended to work chiefly as a deterrent against launching high-risk objects; the compensation it provides is the secondary function.</p>
+    <p>Where damage does occur, the fund offers no-fault compensation for harm caused by untraceable debris, the cases the fault-based liability regime cannot reach, and can finance active removal of the highest-scoring objects already in orbit. But prevention is the point: a fund that is never drawn upon because operators have priced risk out of their missions is the intended outcome, not a failure.</p>
+  </section>
+</div></main>
+
+<footer class="site"><div class="wrap">
+  Orbital Stewardship — a risk model and compensation-fund framework for orbital debris.
+  Data: ESA DISCOS, US Space-Track, NASA Standard Breakup Model &amp; ORDEM, ESA MASTER. Figures are indicative.
+</div></footer>
+</body></html>

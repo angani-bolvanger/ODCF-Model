@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Space Debris — Orbital Stewardship</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="site"><div class="wrap">
+  <div class="brand"><span class="t">Orbital Stewardship</span><span class="v">ORS v1</span></div>
+  <nav class="main">
+    <a href="index.html">Overview</a>
+    <a href="model.html">Model</a>
+    <a href="methodology.html">Methodology</a>
+    <a href="data.html">Data</a>
+    <a href="debris.html" class="active">Space Debris</a>
+  </nav>
+</div></header>
+
+<main><div class="wrap">
+  <div class="page-head">
+    <div class="label">The problem &amp; the thesis</div>
+    <h1>Space debris and the limits of the liability regime</h1>
+    <p class="lead">Low Earth orbit is a finite, shared resource carrying an accumulating population of derelict objects. This page sets out why that accumulation is a legal as well as a technical problem, and the argument developed in the underlying paper for pricing orbital risk rather than litigating it after the fact.</p>
+  </div>
+
+  <section class="block">
+    <h2>The externality</h2>
+    <p>Each launch captures a private benefit while distributing a diffuse cost across the whole orbital environment: the collision risk its objects impose on every other operator. That cost is unpriced. Operators already bear it indirectly, through the propellant and downtime spent avoiding conjunctions, but nothing in the current framework charges the creation of the hazard itself. Absent a price, the individually rational choice is to keep adding objects, and the shared resource degrades.</p>
+    <div class="figure">
+      <h3 style="font-size:16px">Measured object density in low Earth orbit</h3>
+      <svg id="density"></svg>
+      <div class="cap">Object number-density by altitude, computed from the merged catalogue in 25 km shells. Two concentrations are visible: the newer satellite-constellation band near 500 km, and the long-standing derelict population near 800 km.</div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Why the liability regime does not reach it</h2>
+    <p>The 1972 Liability Convention imposes absolute liability for damage on the Earth's surface but only fault-based liability for damage in orbit, the category into which almost all debris collisions fall. Establishing fault requires a traceable causal chain from a specific object to a specific harm. The debris that most often disables a satellite is small, uncatalogued, and generated through successive earlier collisions; it cannot be traced to any launching state. The most probable cause of loss is therefore the least legally actionable, and the regime built for discrete, attributable incidents does not engage with a stochastic, cumulative hazard.</p>
+    <div class="figure">
+      <h3 style="font-size:16px">Modelled distribution of orbital risk by launching state</h3>
+      <div class="opbars" id="opbars"></div>
+      <div class="cap">Aggregate Orbital Risk Score by country of origin across the on-orbit population. The large unattributed share is derelict material with no identifiable owner, the population a fault-based regime structurally cannot address.</div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>The argument</h2>
+    <p>The paper this work operationalises argues for a shift from ex-post attribution of blame to ex-ante quantification of risk. Rather than asking who caused a given collision, usually unanswerable, the framework asks how much risk each object imposes, prices that risk, and levies it as a contribution to a collective fund. Liability becomes a function of measurable orbital behaviour rather than of proving causation. The Orbital Risk Score is the metric that makes this operational; the compensation fund is the instrument that gives it financial effect.</p>
+    <p>The emphasis is preventive. Because the contribution tracks the score, and the score tracks choices an operator controls (disposal timing, passivation, manoeuvrability, orbit selection), the mechanism is designed first as a deterrent against launching high-risk objects, and only second as a source of compensation. The <a href="methodology.html">Methodology</a> page sets out exactly how the score and the contribution are computed.</p>
+  </section>
+
+  <section class="block">
+    <h2>The paper</h2>
+    <div class="panel">
+      <h3 style="margin-bottom:6px">Orbital Stewardship: A Framework for a Collective Liability Fund to Combat Space Debris</h3>
+      <p class="muted small">The full paper develops the legal argument, the risk-scoring methodology, and the structure and governance of the proposed Orbital Debris Compensation Fund.</p>
+      <div class="dl" style="border-bottom:0"><div class="meta"><div class="name">Full paper</div><div class="desc">Complete text, including the legal analysis and the fund's proposed architecture.</div></div>
+        <div><span class="fmt">pdf</span><a class="get" href="paper/Orbital-Stewardship.pdf" download>Download PDF</a> <a class="get" href="paper/Orbital-Stewardship.docx" download style="margin-left:6px">DOCX</a></div></div>
+    </div>
+  </section>
+</div></main>
+
+<footer class="site"><div class="wrap">
+  Orbital Stewardship — a risk model and compensation-fund framework for orbital debris.
+  Data: ESA DISCOS, US Space-Track, NASA Standard Breakup Model &amp; ORDEM, ESA MASTER. Figures are indicative.
+</div></footer>
+<script src="assets/data.js"></script>
+<script src="assets/charts.js"></script>
+</body></html>

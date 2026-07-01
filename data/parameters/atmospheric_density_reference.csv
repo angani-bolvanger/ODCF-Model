@@ -1,0 +1,13 @@
+alt_base_km,rho0_kg_m3,scale_height_km,model,source
+200,2.789e-10,37.105,piecewise-exponential,Vallado Fundamentals of Astrodynamics (Table 8-4)
+250,7.248e-11,45.546,piecewise-exponential,Vallado Fundamentals of Astrodynamics (Table 8-4)
+300,2.418e-11,53.628,piecewise-exponential,Vallado Fundamentals of Astrodynamics (Table 8-4)
+350,9.518e-12,53.298,piecewise-exponential,Vallado Fundamentals of Astrodynamics (Table 8-4)
+400,3.725e-12,58.515,piecewise-exponential,Vallado Fundamentals of Astrodynamics (Table 8-4)
+450,1.585e-12,60.828,piecewise-exponential,Vallado Fundamentals of Astrodynamics (Table 8-4)
+500,6.967e-13,63.822,piecewise-exponential,Vallado Fundamentals of Astrodynamics (Table 8-4)
+600,1.454e-13,71.835,piecewise-exponential,Vallado Fundamentals of Astrodynamics (Table 8-4)
+700,3.614e-14,88.667,piecewise-exponential,Vallado Fundamentals of Astrodynamics (Table 8-4)
+800,1.170e-14,124.64,piecewise-exponential,Vallado Fundamentals of Astrodynamics (Table 8-4)
+900,5.245e-15,181.05,piecewise-exponential,Vallado Fundamentals of Astrodynamics (Table 8-4)
+1000,3.019e-15,268.00,piecewise-exponential,Vallado Fundamentals of Astrodynamics (Table 8-4)

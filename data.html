@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Data — Orbital Stewardship</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="site"><div class="wrap">
+  <div class="brand"><span class="t">Orbital Stewardship</span><span class="v">ORS v1</span></div>
+  <nav class="main">
+    <a href="index.html">Overview</a>
+    <a href="model.html">Model</a>
+    <a href="methodology.html">Methodology</a>
+    <a href="data.html" class="active">Data</a>
+    <a href="debris.html">Space Debris</a>
+  </nav>
+</div></header>
+
+<main><div class="wrap">
+  <div class="page-head">
+    <div class="label">Data &amp; sources</div>
+    <h1>Datasets, parameters, and attribution</h1>
+    <p class="lead">The compiled datasets and model parameters used by the model are available below in machine-readable form, together with the documentation describing every value. The raw source catalogues carry their own redistribution terms and are linked to their providers rather than redistributed here.</p>
+  </div>
+
+  <section class="block">
+    <h2>Compiled datasets &amp; parameters</h2>
+    <p class="muted small">Derived products of this project, released for inspection and reuse with attribution.</p>
+
+    <div class="dl"><div class="meta"><div class="name">Parameter documentation</div><div class="desc">Full write-up of every parameter, its source, units, and role in the model.</div></div><div><span class="fmt">md</span><a class="get" href="PARAMETERS.md" download>Download</a></div></div>
+
+    <div class="dl"><div class="meta"><div class="name">Master parameter index</div><div class="desc">ORS formula, weights, factor definitions and source keys.</div></div><div><span class="fmt">json</span><a class="get" href="data/parameters/ors_parameters.json" download>Download</a></div></div>
+
+    <div class="dl"><div class="meta"><div class="name">Model calibration</div><div class="desc">Normalisation ranges, gating constants, and the price of risk. These are the constants the engine reads.</div></div><div><span class="fmt">json</span><a class="get" href="model/calibration.json" download>Download</a></div></div>
+
+    <div class="dl"><div class="meta"><div class="name">Spatial density by altitude</div><div class="desc">Object number-density in 25 km shells, computed from the merged catalogue. Basis of the CPF factor.</div></div><div><span class="fmt">csv</span><a class="get" href="data/parameters/spatial_density_by_altitude.csv" download>Download</a></div></div>
+
+    <div class="dl"><div class="meta"><div class="name">Material density categories</div><div class="desc">ORDEM-based density classes and lethality multipliers used in the DGP factor.</div></div><div><span class="fmt">csv</span><a class="get" href="data/parameters/material_density_categories.csv" download>Download</a></div></div>
+
+    <div class="dl"><div class="meta"><div class="name">Object-class fragmentation map</div><div class="desc">DISCOS object classes mapped to fragmentation-potential scores.</div></div><div><span class="fmt">csv</span><a class="get" href="data/parameters/object_class_fragmentation.csv" download>Download</a></div></div>
+
+    <div class="dl"><div class="meta"><div class="name">Atmospheric density reference</div><div class="desc">Piecewise-exponential atmosphere (base density, scale height) used in the lifetime estimate.</div></div><div><span class="fmt">csv</span><a class="get" href="data/parameters/atmospheric_density_reference.csv" download>Download</a></div></div>
+  </section>
+
+  <section class="block">
+    <h2>Source catalogues</h2>
+    <p>Object attributes and orbits are drawn from two catalogues. Both are freely available from their providers under their respective terms; obtain the raw data directly from the sources.</p>
+    <table class="data">
+      <thead><tr><th>Source</th><th>Contribution to the model</th><th>Access</th></tr></thead>
+      <tbody>
+        <tr><td>ESA DISCOS</td><td>Object physical attributes: mass, cross-section, class, dimensions, predicted decay.</td><td><a href="https://discosweb.esoc.esa.int" target="_blank" rel="noopener">discosweb.esoc.esa.int</a></td></tr>
+        <tr><td>US Space-Track (18 SDS)</td><td>Orbital elements: apogee, perigee, inclination, period, RCS size, object type.</td><td><a href="https://www.space-track.org" target="_blank" rel="noopener">space-track.org</a></td></tr>
+      </tbody>
+    </table>
+    <div class="note">Space-Track data is provided under the Space-Track user agreement, which restricts redistribution of the raw catalogue. Aggregate and derived products published on this page (e.g. shell densities) are the work of this project; per-object catalogue data should be obtained directly from Space-Track and DISCOS under their terms.</div>
+  </section>
+
+  <section class="block">
+    <h2>Reference models &amp; literature</h2>
+    <table class="data">
+      <thead><tr><th>Reference</th><th>Used for</th></tr></thead>
+      <tbody>
+        <tr><td>Johnson, N. L. et al. (2001), <em>NASA's new breakup model of EVOLVE 4.0</em>, Adv. Space Res. 28(9):1377.</td><td>Fragment-count scaling with mass (DGP).</td></tr>
+        <tr><td>NASA Orbital Debris Engineering Model (ORDEM), NASA Orbital Debris Program Office.</td><td>Material-density categories and lethality (DGP).</td></tr>
+        <tr><td>ESA MASTER — Meteoroid and Space Debris Terrestrial Environment Reference.</td><td>Reference for spatial-density validation (CPF).</td></tr>
+        <tr><td>King-Hele, D., <em>Satellite Orbits in an Atmosphere: Theory and Applications</em>.</td><td>Atmospheric-drag orbital-lifetime estimate (OPI).</td></tr>
+        <tr><td>Vallado, D. A., <em>Fundamentals of Astrodynamics and Applications</em> (exponential atmosphere).</td><td>Atmospheric-density profile (OPI).</td></tr>
+        <tr><td>NOAA Space Weather Prediction Center — F10.7 solar radio flux.</td><td>Solar-activity input to atmospheric density (OPI).</td></tr>
+      </tbody>
+    </table>
+  </section>
+</div></main>
+
+<footer class="site"><div class="wrap">
+  Orbital Stewardship — a risk model and compensation-fund framework for orbital debris.
+  Data: ESA DISCOS, US Space-Track, NASA Standard Breakup Model &amp; ORDEM, ESA MASTER. Figures are indicative.
+</div></footer>
+</body></html>
