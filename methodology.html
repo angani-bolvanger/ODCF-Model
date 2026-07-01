@@ -37,7 +37,7 @@
     <div class="vardef">
       <h4>Debris Generation Potential <span class="tag">DGP</span></h4>
       <div class="eq">DGP<sub>raw</sub>  =  m<sup>0.75</sup> · ρ<sub>mat</sub> · ( 0.5 + 0.5·FP )</div>
-      <p>How much debris the object would produce in a break-up. Mass enters as <code>m^0.75</code>, the fragment-count scaling of the NASA Standard Breakup Model, under which doubling mass produces roughly 1.7× the fragments rather than 2×. <code>ρ<sub>mat</sub></code> is a material-density multiplier (denser fragments carry more energy and are more lethal; aluminium is the baseline). <code>FP</code> is a fragmentation-potential score from the object's class. Rocket bodies, which often retain un-passivated propellant, score highest, and inert fragments score lowest.</p>
+      <p>The debris an object would create in a break-up. Mass enters as <code>m^0.75</code>, the fragment-count scaling of the NASA Standard Breakup Model, under which doubling mass produces roughly 1.7× the fragments rather than 2×. <code>ρ<sub>mat</sub></code> is a material-density multiplier (denser fragments carry more energy and are more lethal; aluminium is the baseline). <code>FP</code> is a fragmentation-potential score from the object's class. Rocket bodies, which often retain un-passivated propellant, score highest, and inert fragments score lowest.</p>
     </div>
 
     <div class="vardef">
@@ -48,7 +48,7 @@
     <div class="vardef">
       <h4>Collision Probability Factor <span class="tag">CPF</span></h4>
       <div class="eq">CPF<sub>raw</sub>  =  δ(h)  ·  A<sub>cross</sub></div>
-      <p>How exposed the object is to collision. <code>δ(h)</code> is the spatial density of objects at the object's altitude, measured directly from the catalogue in 25 km shells; <code>A<sub>cross</sub></code> is the object's own cross-sectional area, since a larger target is proportionally more likely to be struck. This is where cross-section enters the model, since collision probability, not debris generation, is what a large frontal area physically drives.</p>
+      <p>The traffic density of the object's orbital region. <code>δ(h)</code> is the spatial density of objects at the object's altitude, measured directly from the catalogue in 25 km shells; <code>A<sub>cross</sub></code> is the object's own cross-sectional area, since a larger target is proportionally more likely to be struck. This is where cross-section enters the model, since collision probability, not debris generation, is what a large frontal area physically drives.</p>
     </div>
   </section>
 
@@ -56,7 +56,7 @@
     <h2>Normalisation</h2>
     <p>The three raw factors span many orders of magnitude, from masses in grams to tonnes and densities across a wide range. Each is mapped onto [0, 1] by a logarithmic min-max against the real population, clipped at the 1st and 99th percentiles so that a handful of extreme objects do not compress everything else:</p>
     <div class="eq">F  =  clip(  ( log₁₀ x − log₁₀ x<sub>lo</sub> ) / ( log₁₀ x<sub>hi</sub> − log₁₀ x<sub>lo</sub> ),  0,  1 )</div>
-    <p>A normalised factor of 1 therefore means "at or above the 99th-percentile object in orbit for this property", and 0 means "at or below the 1st percentile".</p>
+    <p>A normalised factor of 1 therefore means at or above the 99th-percentile object in orbit for this property, and 0 means at or below the 1st percentile.</p>
   </section>
 
   <section class="block">
@@ -75,13 +75,13 @@
     <h2>From score to contribution</h2>
     <div class="eq">C  =  price · ORS · n        price  =  FundTarget / (annual new-launch ORS)</div>
     <p>The fund raises its annual target from the flow of new launches, in proportion to the risk each adds. Dividing the target by the aggregate risk of a typical year's launches yields a price per unit of risk; a single object's contribution is that price times its ORS, times the number of objects <code>n</code>. At a hypothetical $1B annual target and recent launch rates, the price is approximately <strong>$1.06 million per ORS point</strong>.</p>
-    <div class="note">This is a levy on the flow of new activity, not a charge against the entire standing population. Charging the standing stock would divide the target across tens of thousands of objects, including orphan debris with no payer, and produce negligible per-object figures. Pricing the flow attaches the cost to the decision that creates the risk.</div>
+    <div class="note">The fund raises its annual target from each year's launches, rather than from everything already in orbit. Charging the standing population would spread the target across tens of thousands of objects, much of it orphan debris that nobody can be billed for, and leave each contribution negligible. Charging the launches instead places the cost on the activity that creates the risk.</div>
   </section>
 
   <section class="block">
     <h2>The compensation fund as a deterrent</h2>
-    <p>The Orbital Debris Compensation Fund is a mechanism for pricing risk before it is created, not for assigning blame after a collision. Its primary purpose is preventive: because the contribution is tied directly to the score, an operator lowers its bill by lowering its risk: deorbiting on schedule, passivating stored energy, retaining manoeuvrability, or selecting a lower, self-cleaning orbit. The fund is intended to work chiefly as a deterrent against launching high-risk objects; the compensation it provides is the secondary function.</p>
-    <p>Where damage does occur, the fund offers no-fault compensation for harm caused by untraceable debris, the cases the fault-based liability regime cannot reach, and can finance active removal of the highest-scoring objects already in orbit. But prevention is the point: a fund that is never drawn upon because operators have priced risk out of their missions is the intended outcome, not a failure.</p>
+    <p>The Orbital Debris Compensation Fund prices risk before it is created rather than assigning blame once a collision has occurred. It is designed to prevent damage more than to compensate for it. Because the contribution tracks the score, an operator can reduce it by reducing its risk: deorbiting on time, passivating stored energy, keeping a satellite manoeuvrable, or choosing a lower orbit that clears itself faster. Discouraging high-risk launches is the primary aim; compensation is secondary.</p>
+    <p>When damage does occur, the fund pays out on a no-fault basis for harm caused by untraceable debris, the cases the fault-based regime cannot handle, and it can finance the active removal of the highest-scoring objects already in orbit. Even so, the better outcome is a fund that is rarely called upon, because operators have designed the risk out of their missions before launch.</p>
   </section>
 </div></main>
 
